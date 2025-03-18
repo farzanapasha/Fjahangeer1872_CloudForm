@@ -4,6 +4,7 @@ Description: CloudFormation template to create an S3 bucket with configurable na
 Parameters:
   BucketName:
     Type: String
+    default: s3-nk-bt1-fjahangeer1872
     Description: The name of the S3 bucket
 
   VersioningEnabled:
