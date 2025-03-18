@@ -4,7 +4,7 @@
 
 This project sets up an automated CI/CD pipeline using AWS CodePipeline that provisions AWS resources using CloudFormation. The pipeline will deploy an S3 bucket as part of the infrastructure automation process.
 
-## Lab Requirements
+## Lab Requirement
 
 ### 1. Create a Simple CloudFormation Template
 - Define a CloudFormation template in **YAML** or **JSON** format.
