@@ -13,6 +13,4 @@ This project sets up an automated CI/CD pipeline using AWS CodePipeline that pro
   - **Versioning (enabled/disabled)**
 - **Test the Template** locally using the AWS CLI command:  
   ```bash
-  aws cloudformation validate-template --template-body file://s3_cloudformtemp.yaml 
-
-  aws cloudformation create-stack --stack-name MyS3Stack --template-body file://s3_cloudformtemp.yaml --parameters ParameterKey=BucketName,ParameterValue=my-unique-s3-bucket ParameterKey=EnableVersioning,ParameterValue=Enabled ParameterKey=EnableObjectLock,ParameterValue=false --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation validate-template --template-body file://s3_cloudformtemp.yaml
