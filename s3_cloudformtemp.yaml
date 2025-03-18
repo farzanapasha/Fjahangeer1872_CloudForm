@@ -1,119 +1,28 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: "CloudFormation Template creating S3 bucket with advanced configurations"
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create an S3 bucket with configurable name and versioning
 
 Parameters:
-  Fjahangeer1872BucketName:
+  BucketName:
     Type: String
-    Description: "Name of S3 bucket: Fjahangeer1872_s3"
+    Description: The name of the S3 bucket
 
-  Fjahangeer1872EnableVersioning:
+  VersioningEnabled:
     Type: String
-    AllowedValues: ["Enabled", "Suspended"]
-    Default: "Enabled"
-    Description: "Enable or disable S3 bucket versioning"
-
-  Fjahangeer1872EnableObjectLock:
-    Type: String
-    AllowedValues: ["true", "false"]
-    Default: "false"
-    Description: "Enable or disable Object Lock"
+    Default: 'Enabled'
+    AllowedValues:
+      - 'Enabled'
+      - 'Disabled'
+    Description: Enable or disable versioning for the S3 bucket
 
 Resources:
-  Fjahangeer1872MyS3Bucket:
-    Type: "AWS::S3::Bucket"
+  S3Bucket:
+    Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref Fjahangeer1872BucketName
-      AccessControl: Private
-      
-      AccelerateConfiguration:
-        AccelerationStatus: "Enabled"
-
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: "AES256"
-
-      CorsConfiguration:
-        CorsRules:
-          - AllowedOrigins: ["*"]
-            AllowedMethods: ["GET", "PUT"]
-            AllowedHeaders: ["*"]
-            MaxAge: 3000
-
-      IntelligentTieringConfigurations:
-        - Id: "Fjahangeer1872_IntelligentTiering"
-          Status: "Enabled"
-          Tierings:
-            - AccessTier: "ARCHIVE_ACCESS"
-            - AccessTier: "DEEP_ARCHIVE_ACCESS"
-
-      InventoryConfigurations:
-        - Id: "Fjahangeer1872_InventoryConfig"
-          Enabled: true
-          Destination:
-            S3BucketDestination:
-              BucketArn: !Sub "arn:aws:s3:::${Fjahangeer1872BucketName}"
-              Format: "CSV"
-          ScheduleFrequency: "Weekly"
-          IncludedObjectVersions: "All"
-
-      LifecycleConfiguration:
-        Rules:
-          - Id: "Fjahangeer1872_DeleteOldVersions"
-            Status: "Enabled"
-            NoncurrentVersionExpiration:
-              NoncurrentDays: 30
-          
-      LoggingConfiguration:
-        DestinationBucketName: !Ref Fjahangeer1872BucketName
-        LogFilePrefix: "logs/"
-
-      MetricsConfigurations:
-        - Id: "Fjahangeer1872_MetricsConfig"
-          Prefix: "logs/"
-          TagFilters:
-            - Key: "Project"
-              Value: "CloudFormation"
-
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: "s3:ObjectCreated:*"
-            Function: "arn:aws:lambda:us-east-1:123456789012:function:Fjahangeer1872_MyLambdaFunction"
-
-      ObjectLockConfiguration:
-        ObjectLockEnabled: !Ref Fjahangeer1872EnableObjectLock
-
-      OwnershipControls:
-        Rules:
-          - ObjectOwnership: "BucketOwnerEnforced"
-
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-
-      ReplicationConfiguration:
-        Role: "arn:aws:iam::123456789012:role/Fjahangeer1872_s3-replication-role"
-        Rules:
-          - Id: "Fjahangeer1872_ReplicationRole"
-            Status: "Enabled"
-            Destination:
-              Bucket: "arn:aws:s3:::destination-bucket"
-              StorageClass: "STANDARD"
-
-      Tags:
-        - Key: "Environment"
-          Value: "Development"
-
+      BucketName: !Ref BucketName
       VersioningConfiguration:
-        Status: !Ref Fjahangeer1872EnableVersioning
-
-      WebsiteConfiguration:
-        IndexDocument: "index.html"
-        ErrorDocument: "error.html"
+        Status: !Ref VersioningEnabled
 
 Outputs:
-  Fjahangeer1872S3BucketName:
-    Description: "The name of the created S3 bucket"
-    Value: !Ref Fjahangeer1872MyS3Bucket
+  BucketName:
+    Description: The name of the created S3 bucket
+    Value: !Ref S3Bucket
