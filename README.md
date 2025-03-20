@@ -8,7 +8,7 @@ Automated Infrastructure Deployment with AWS CloudFormation and CodePipeline
 
 ### 1. Create a Simple CloudFormation Template
 - Define a CloudFormation template in **YAML** or **JSON** format
-- **Test the Template** locally using the AWS CLI command:  
+- Test the Template locally using the AWS CLI command:  
   ```bash
   aws cloudformation validate-template --template-body file://s3_cloudformtemp.yaml
 
